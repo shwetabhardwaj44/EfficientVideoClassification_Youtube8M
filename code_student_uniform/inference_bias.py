@@ -1,17 +1,3 @@
-# Copyright 2016 Google Inc. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS-IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 """Binary for generating predictions over a set of videos."""
 
 import os
@@ -30,14 +16,9 @@ import losses
 import readers
 import utils
 
-import glob
-import numpy as np
-
 FLAGS = flags.FLAGS
 
 if __name__ == '__main__':
-  num_classes = 4716
-  
   flags.DEFINE_string("train_dir", "/tmp/yt8m_model/",
                       "The directory to load the model files from.")
   flags.DEFINE_string("output_file", "",
@@ -47,8 +28,8 @@ if __name__ == '__main__':
       "File glob defining the evaluation dataset in tensorflow.SequenceExample "
       "format. The SequenceExamples are expected to have an 'rgb' byte array "
       "sequence feature as well as a 'labels' int64 context feature.")
-  flags.DEFINE_string("preds_pattern", "",
-                      "Filenames for prediction files")
+  flags.DEFINE_string(
+      "tensor_name", "", "tensor name")
 
   # Model flags.
   flags.DEFINE_bool(
@@ -62,6 +43,8 @@ if __name__ == '__main__':
       "How many examples to process per batch.")
   flags.DEFINE_float("dropout", 1.0,
                      "Dropout Probability")
+  flags.DEFINE_float("alpha_bias", 1.0,
+                     "bias = bias/alpha + mean(bias-bias/alpha)")
   flags.DEFINE_string("feature_names", "rgb", "Name of the feature "
                       "to use for training.")
   flags.DEFINE_string("device", "/gpu:0", "device on which we run inference.")
@@ -141,8 +124,8 @@ def inference(reader, train_dir, data_pattern, out_file_location, batch_size, to
       input_tensor = tf.get_collection("input_batch_raw")[0]
       num_frames_tensor = tf.get_collection("num_frames")[0]
       predictions_tensor = tf.get_collection("predictions")[0]
-      old_predictions = tf.get_collection("old_predictions")[0]
       update_dropout_test = tf.get_collection("update_dropout_test")
+      fc_bias = tf.get_default_graph().get_tensor_by_name(FLAGS.tensor_name)
       if(len(update_dropout_test) > 0):
         update_dropout_test = update_dropout_test[0]
       else:
@@ -164,46 +147,24 @@ def inference(reader, train_dir, data_pattern, out_file_location, batch_size, to
       if(update_dropout_test is not None):
         sess.run(update_dropout_test)
         logging.info('Updated dropout')
-
-      def read_pred_file(filename):
-        logging.info('reading: '+filename)
-        f = open(filename).readlines()
-        f = f[1:]
-        f = map(lambda x: x.split(','),f)
-        video_ids = [x[0] for x in f]
-
-        preds  = [x[1].split(' ') for x in f]
-        labels = [map(int,x[0::2]) for x in preds]
-        probs  = [map(float,x[1::2]) for x in preds]
-
-        d = {video_ids[i]: (labels[i],probs[i]) for i in range(len(video_ids))}
-        return d
-
-      preds_files = glob.glob(FLAGS.preds_pattern)
-      preds_files.sort()
-      num_preds_files = len(preds_files)
-      logging.info('files: '+' '.join(preds_files))
-
-      predictions_dict = []
-      for i in range(len(preds_files)):
-        predictions_dict.append(read_pred_file(preds_files[i]))
-
       coord = tf.train.Coordinator()
       threads = tf.train.start_queue_runners(sess=sess, coord=coord)
       num_examples_processed = 0
       start_time = time.time()
       out_file.write("VideoId,LabelConfidencePairs\n")
+      # fixing bias
+
+      old = sess.run(fc_bias)
+      print>>file('old_biases','w'),' '.join(['%0.4f'%i for i in old])
+      logging.info('size of bias vector is %d'%len(old))
+      new = old/FLAGS.alpha_bias + numpy.mean(old - old/FLAGS.alpha_bias)
+      logging.info('reduced bias by a factor of %0.2f'%FLAGS.alpha_bias)
 
       try:
         while not coord.should_stop():
           video_id_batch_val, video_batch_val,num_frames_batch_val = sess.run([video_id_batch, video_batch, num_frames_batch])
-          old_predictions_val = np.zeros(shape=(FLAGS.batch_size, num_preds_files, 4716),dtype=np.float32)
-          for i,video_id in enumerate(video_id_batch_val):
-            for j in range(num_preds_files):
-              cur_labels,cur_probs = predictions_dict[j][video_id]
-              old_predictions_val[i,j,cur_labels] = cur_probs
           now_1 = time.time()
-          predictions_val, = sess.run([predictions_tensor], feed_dict={input_tensor: video_batch_val, num_frames_tensor: num_frames_batch_val, old_predictions: old_predictions_val})
+          predictions_val, = sess.run([predictions_tensor], feed_dict={input_tensor: video_batch_val, num_frames_tensor: num_frames_batch_val, fc_bias: new})
           now = time.time()
           num_examples_processed += len(video_batch_val)
           num_classes = predictions_val.shape[1]

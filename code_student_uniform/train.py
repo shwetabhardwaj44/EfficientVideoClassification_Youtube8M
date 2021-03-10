@@ -1,5 +1,5 @@
 
-"""Binary for training Tensorflow models on the YouTube-8M dataset."""
+"""Binary for training Dyamic Teacher And Student Parallelly Tensorflow models on the YouTube-8M dataset."""
 
 import json
 import os
