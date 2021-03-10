@@ -121,9 +121,6 @@ INFO:tensorflow:global_step/sec: 0.00853665
 INFO:tensorflow:/job:master/task:0: training step 4| Hit@1: 0.08| PERR: 0.06| GAP: 0.01| Teacher_Loss: 1908.12| L_REP: 1.52| L_PRED: 0.01| L_CE: 1913.41
 INFO:tensorflow:Recording summary at step 4.
 INFO:tensorflow:global_step/sec: 0.0166816
-INFO:tensorflow:/job:master/task:0: training step 6| Hit@1: 0.20| PERR: 0.15| GAP: 0.02| Teacher_Loss: 326.74| L_REP: 405.56| L_PRED: 12.09| L_CE: 1769.69
-INFO:tensorflow:Recording summary at step 6.
-INFO:tensorflow:global_step/sec: 0.00807818
 ```
 
 # Upcoming:
