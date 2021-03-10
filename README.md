@@ -15,7 +15,7 @@ This repository contains code for the following paper:
 * cPickle: 1.71
 
 # Dataset
-- YouTube-8M Data: http://research.google.com/youtube8m/download.html
+- Youtube-8M Large-Scale Video Understanding: http://research.google.com/youtube8m/download.html
 - YouTube-8M small sample link: (https://drive.google.com/drive/folders/1XY63FfJY7k7YD3WrQ8DN7L6kTiX4BxlK?usp=sharing)
 
 - No. of classes (in current code): 4716
