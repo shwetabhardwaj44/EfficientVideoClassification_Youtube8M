@@ -19,7 +19,7 @@ This repository contains code for the following paper:
 
 - No. of classes (in current code): 4716
 - 2017 Version: 7.0M videos, 4716 classes, 3.4 labels/video, 3.2B audio-visual features
-- Note: This code supports all versions of dataset. In ```code_student_uniform/code/readers.py```, You can change ```id``` to ```video_id``` and ```num_classes``` to required.
+- Note: This code supports all versions of dataset. In ```code_student_uniform/readers.py```, You can change ```id``` to ```video_id``` and ```num_classes``` to required.
 
 # Code Organization
 Bash Scripts for end-to-end training:
@@ -30,12 +30,12 @@ Bash Scripts for end-to-end training:
 - `run_evaluate.sh`: Bash script for evaluating fine-tuned Student and generate logs in `eval_HLSTM_TeaStud_every10_finetune_after_Nepc`
 
 Main Code Files:
-- `code_student_uniform/code/train.py`: Binary for training dynamic Teacher and Student Tensorflow models (Hierarchical LSTMs) on YouTube-8M dataset.
-- `code_student_uniform/code/train_convert_model.py`: Binary for converting Meta-graph from Teacher-Student to Student in the Network on YouTube-8M dataset.
-- `code_student_uniform/code/train_finetune.py`: Binary for training(fine-tuning) pre-trained Student Tensorflow models on YouTube-8M dataset.
-- `code_student_uniform/code/frame_level_models.py`: Contains a collection of Models (with Teacher and Student architectures) which operate on variable-length sequences.
-- `code_student_uniform/code/validate.py`: Binary for evaluating Student Tensorflow models in the Teacher-Student architecture on the YouTube-8M dataset.
-- `code_student_uniform/code/eval_finetune.py`: Binary for evaluating Student Tensorflow models after fine-tuning on the YouTube-8M dataset.
+- `code_student_uniform/train.py`: Binary for training dynamic Teacher and Student Tensorflow models (Hierarchical LSTMs) on YouTube-8M dataset.
+- `code_student_uniform/train_convert_model.py`: Binary for converting Meta-graph from Teacher-Student to Student in the Network on YouTube-8M dataset.
+- `code_student_uniform/train_finetune.py`: Binary for training(fine-tuning) pre-trained Student Tensorflow models on YouTube-8M dataset.
+- `code_student_uniform/frame_level_models.py`: Contains a collection of Models (with Teacher and Student architectures) which operate on variable-length sequences.
+- `code_student_uniform/validate.py`: Binary for evaluating Student Tensorflow models in the Teacher-Student architecture on the YouTube-8M dataset.
+- `code_student_uniform/eval_finetune.py`: Binary for evaluating Student Tensorflow models after fine-tuning on the YouTube-8M dataset.
 
 # Command Examples
 ```
