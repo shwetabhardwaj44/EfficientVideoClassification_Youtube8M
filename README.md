@@ -11,7 +11,7 @@ This repository contains code for the following paper:
 
 # Requirements
 * Tensorflow: 1.3.0
-* Python: 2.7.18 (supports Python3 also)
+* Python: 2.7.18 (supports Python3)
 * cPickle: 1.71
 
 # Dataset
