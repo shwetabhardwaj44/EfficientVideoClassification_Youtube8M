@@ -1,4 +1,4 @@
-# EfficentVideoClassification_Youtube8M
+# EfficientVideoClassification_Youtube8M
 This repository contains code for the following paper:
 > Shweta Bhardwaj, Mukundhan Srinivasan, Mitesh M. Khapra. *Efficient Video Classification Using Fewer Frames*. IEEE Conference on Computer Vision and Pattern Recognition 2019 [[https://openaccess.thecvf.com/content_CVPR_2019/papers/Bhardwaj_Efficient_Video_Classification_Using_Fewer_Frames_CVPR_2019_paper.pdf](https://openaccess.thecvf.com/content_CVPR_2019/papers/Bhardwaj_Efficient_Video_Classification_Using_Fewer_Frames_CVPR_2019_paper.pdf)].
 
