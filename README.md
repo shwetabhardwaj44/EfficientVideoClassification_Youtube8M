@@ -15,7 +15,7 @@ This repository contains code for the following paper:
 
 # Dataset
 - Youtube-8M Large-Scale Video Understanding: http://research.google.com/youtube8m/download.html
-- YouTube-8M small sample link: (https://drive.google.com/drive/folders/1XY63FfJY7k7YD3WrQ8DN7L6kTiX4BxlK?usp=sharing)
+- YouTube-8M small sample link: (https://drive.google.com/drive/folders/1XY63FfJY7k7YD3WrQ8DN7L6kTiX4BxlK?usp=sharing). Download dataset and save in `yt8m` folder.
 
 - No. of classes (in current code): 4716
 - 2017 Version: 7.0M videos, 4716 classes, 3.4 labels/video, 3.2B audio-visual features
