@@ -113,9 +113,17 @@ INFO:tensorflow:/job:master/task:0: Entering training loop.
 INFO:tensorflow:global_step/sec: 0
 INFO:tensorflow:Recording summary at step 0.
 INFO:tensorflow:global_step/sec: 0.00674478
-INFO:tensorflow:/job:master/task:0: training step 2| Hit@1: 0.00| PERR: 0.00| GAP: 0.00| Teacher_Loss: 1914.1583| L_REP: 1.1446424| L_PRED: 2.1074477e-05| L_CE: 1914.1437
-INFO:tensorflow:/job:master/task:0: training step 4| Hit@1: 0.09| PERR: 0.04| GAP: 0.01| Teacher_Loss: 1910.0898| L_REP: 1.4490945| L_PRED: 2.739967e-05| L_CE: 1911.522
-
+INFO:tensorflow:/job:master/task:0: training step 2| Hit@1: 0.00| PERR: 0.00| GAP: 0.00| Teacher_Loss: 1914.09| L_REP: 1.16| L_PRED: 0.01| L_CE: 1914.1
+INFO:tensorflow:global_step/sec: 0.0104066
+INFO:tensorflow:Recording summary at step 2.
+INFO:tensorflow:Recording summary at step 3.
+INFO:tensorflow:global_step/sec: 0.00853665
+INFO:tensorflow:/job:master/task:0: training step 4| Hit@1: 0.08| PERR: 0.06| GAP: 0.01| Teacher_Loss: 1908.12| L_REP: 1.52| L_PRED: 0.01| L_CE: 1913.41
+INFO:tensorflow:Recording summary at step 4.
+INFO:tensorflow:global_step/sec: 0.0166816
+INFO:tensorflow:/job:master/task:0: training step 6| Hit@1: 0.20| PERR: 0.15| GAP: 0.02| Teacher_Loss: 326.74| L_REP: 405.56| L_PRED: 12.09| L_CE: 1769.69
+INFO:tensorflow:Recording summary at step 6.
+INFO:tensorflow:global_step/sec: 0.00807818
 ```
 
 # Upcoming:
