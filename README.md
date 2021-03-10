@@ -42,7 +42,7 @@ Main Code Files:
 ```
 bash run_train.sh
 ```
-and here are some sample outputs on a smaller subset of training data (data), from my local run:
+and here are some sample outputs on a smaller subset of training data, from my local run (macOS 10.14.6):
 ```
 Key: video_level_classifier_model Value: MoeModel
 Key: train_dir Value: ./model_HLSTM_TeaStud_every10_train/
@@ -136,4 +136,3 @@ INFO:tensorflow:Recording summary at step 9.
 
 # Upcoming:
 Support for Cluster Based Methods : NetVLAD, NeXtVLAD
-
