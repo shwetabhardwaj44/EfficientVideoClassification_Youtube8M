@@ -1,3 +1,4 @@
+
 """Contains the base class for models."""
 
 class BaseModel(object):

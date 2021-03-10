@@ -1,6 +1,7 @@
 
 """Contains a collection of util functions for model construction.
 """
+
 import numpy
 import tensorflow as tf
 from tensorflow import logging

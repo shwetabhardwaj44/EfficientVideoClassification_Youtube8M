@@ -1,3 +1,4 @@
+
 """Binary for generating predictions over a set of videos."""
 
 import os

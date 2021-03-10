@@ -1,5 +1,5 @@
 
-"""Binary for training Dyamic Teacher And Student Parallelly Tensorflow models on the YouTube-8M dataset."""
+"""Binary for PARALLEL training of Dyamic Teacher And Student Tensorflow models on the YouTube-8M dataset."""
 
 import json
 import os
@@ -395,10 +395,15 @@ def build_graph(reader,
         with tf.control_dependencies([barrier]):
           student_label_loss = tf.identity(student_label_loss)
 
-    # pred_loss = ?
+    def KL_div(x, y):
+        X = tf.distributions.Categorical(probs=x)
+        Y = tf.distributions.Categorical(probs=y)
+        return tf.distributions.kl_divergence(X, Y)
+    pred_loss = tf.reduce_sum(KL_div(predictions, student_predictions))
 
     # Incorporate the L2 weight penalties etc.
-    total_student_loss = regularization_penalty * stud_reg_loss + student_label_loss + student_loss_state
+    ### TOTAL_LOSS     = L_REP (student_loss_state) + L_PRED (pred_loss) + L_CE (student_label_loss) + REG_LOSS
+    total_student_loss =  student_loss_state + pred_loss + student_label_loss + student_loss_state +  regularization_penalty * stud_reg_loss
     
     student_vars_to_train = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'model_student')
     names_student_vars_to_train = [v.name for v in tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'model_student')]
@@ -413,6 +418,8 @@ def build_graph(reader,
         clip_gradient_norm=clip_gradient_norm)
     
     tf.add_to_collection("student_loss_state", student_loss_state)
+    tf.add_to_collection("pred_loss", pred_loss)
+    tf.add_to_collection("student_label_loss", student_label_loss)
     tf.add_to_collection("num_frames_student", num_frames_student)    
     tf.add_to_collection("train_student_op", train_student_op)    
     tf.add_to_collection("total_student_loss", total_student_loss)
@@ -451,11 +458,12 @@ class Trainer(object):
       A tuple of the training Hit@1 and the training PERR.
     """
     #########################################
-    # Remove training directory manually ####
+    # Remove training directory manually only
     #########################################
 
     # if self.is_master and start_new_model:
     #   self.remove_training_directory(self.train_dir)
+
     start_time = time.time()
     target, device_fn = self.start_server_if_distributed()
 
@@ -480,6 +488,9 @@ class Trainer(object):
         train_op = tf.get_collection("train_op")[0]
         train_student_op = tf.get_collection("train_student_op")[0]
         total_student_loss = tf.get_collection("total_student_loss")[0]
+        student_loss_state = tf.get_collection("student_loss_state")[0]
+        pred_loss = tf.get_collection("pred_loss")[0]
+        student_label_loss = tf.get_collection("student_label_loss")[0]
         init_op = tf.global_variables_initializer()
 
     sv = tf.train.Supervisor(
@@ -501,11 +512,11 @@ class Trainer(object):
 
           batch_start_time = time.time()
 
-          # Train Both Dynamic Teacher and Student network
-          _, _, student_loss, global_step_val, loss_val, predictions_val, labels_val = sess.run(
-              [train_op, train_student_op, total_student_loss, global_step, loss, predictions, labels] )
+          # Parallel Training of Dynamic Teacher and Student network::
+          _, _, global_step_val, loss_val, predictions_val, labels_val, total_stud_loss, stud_state_loss, stud_pred_loss, stud_label_loss = sess.run(
+              [train_op, train_student_op, global_step, loss, predictions, labels, total_student_loss, student_loss_state, pred_loss, student_label_loss] )
           seconds_per_batch = time.time() - batch_start_time
-          print("Vars to train")
+      
           if self.is_master:
             examples_per_second = labels_val.shape[0] / seconds_per_batch
             hit_at_one = eval_util.calculate_hit_at_one(predictions_val,
@@ -517,7 +528,8 @@ class Trainer(object):
             logging.info(
                 "%s: training step " + str(global_step_val) + "| Hit@1: " +
                 ("%.2f" % hit_at_one) + "| PERR: " + ("%.2f" % perr) + "| GAP: " +
-                ("%.2f" % gap) + "| Loss: " + str(loss_val)+ "| student_loss " + str(student_loss),
+                ("%.2f" % gap) + "| Teacher_Loss: " + str(loss_val.round(2))+ "| L_REP: " + str(stud_state_loss.round(2)) +
+                "| L_PRED: " + str(stud_pred_loss.round(2))+ "| L_CE: " + str(stud_label_loss.round(2)),
                 task_as_string(self.task))
 
             sv.summary_writer.add_summary(
@@ -635,8 +647,6 @@ class Trainer(object):
       logging.info("%s: Built graph.", task_as_string(self.task))
       vars_models = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)
       names_vars_models = [v.name for v in vars_models]
-      logging.info("Names of all Trainable Parameters in whole checkpoint:")
-      logging.info(names_vars_models)
  
       return tf.train.Saver(max_to_keep=1)
 

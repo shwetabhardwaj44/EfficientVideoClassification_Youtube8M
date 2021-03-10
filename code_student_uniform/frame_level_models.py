@@ -1,8 +1,8 @@
 
 """Contains a collection of models which operate on variable-length sequences.
 """
-import math
 
+import math
 import models
 import video_level_models
 import tensorflow as tf

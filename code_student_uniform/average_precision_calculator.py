@@ -1,7 +1,3 @@
-<<<<<<< HEAD:code_student_uniform/average_precision_calculator.py
-
-=======
->>>>>>> 97182310ba2520a567ffba05f23195a1dadb1f24:code_student_uniform/code/average_precision_calculator.py
 
 """Calculate or keep track of the interpolated average precision.
 

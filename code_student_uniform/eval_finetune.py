@@ -1,7 +1,3 @@
-<<<<<<< HEAD:code_student_uniform/eval_finetune.py
-=======
-
->>>>>>> 97182310ba2520a567ffba05f23195a1dadb1f24:code_student_uniform/code/eval_finetune.py
 """Binary for evaluating Tensorflow models on the YouTube-8M dataset."""
 
 import time

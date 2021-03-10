@@ -1,4 +1,5 @@
 
+
 """Provides definitions for non-regularized training or test losses."""
 
 import tensorflow as tf
