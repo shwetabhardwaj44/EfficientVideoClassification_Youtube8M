@@ -19,7 +19,7 @@ This repository contains code for the following paper:
 
 - No. of classes (in current code): 4716
 - 2017 Version: 7.0M videos, 4716 classes, 3.4 labels/video, 3.2B audio-visual features
-- Note: This code supports all versions of dataset. In ```code_student_uniform/readers.py```, You can change ```id``` to ```video_id``` and ```num_classes``` to required.
+- Note: This code supports all versions of dataset. In ```code_student_uniform/readers.py```, You can change ```video_id``` to ```id``` and set ```num_classes``` as per the dataset version.
 
 # Code Organization
 Bash Scripts for end-to-end training:
