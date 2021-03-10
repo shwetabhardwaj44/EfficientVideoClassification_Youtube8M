@@ -1,6 +1,6 @@
 # EfficientVideoClassification_Youtube8M
 This repository contains code for the following paper:
-> Shweta Bhardwaj, Mukundhan Srinivasan, Mitesh M. Khapra. *Efficient Video Classification Using Fewer Frames*. IEEE Conference on Computer Vision and Pattern Recognition 2019 [[https://openaccess.thecvf.com/content_CVPR_2019/papers/Bhardwaj_Efficient_Video_Classification_Using_Fewer_Frames_CVPR_2019_paper.pdf](https://openaccess.thecvf.com/content_CVPR_2019/papers/Bhardwaj_Efficient_Video_Classification_Using_Fewer_Frames_CVPR_2019_paper.pdf)].
+> Shweta Bhardwaj, Mukundhan Srinivasan, Mitesh M. Khapra. *Efficient Video Classification Using Fewer Frames*. IEEE Conference on Computer Vision and Pattern Recognition 2019 [https://openaccess.thecvf.com/content_CVPR_2019/papers/Bhardwaj_Efficient_Video_Classification_Using_Fewer_Frames_CVPR_2019_paper.pdf](https://openaccess.thecvf.com/content_CVPR_2019/papers/Bhardwaj_Efficient_Video_Classification_Using_Fewer_Frames_CVPR_2019_paper.pdf)].
 
 - [Requirements](#Requirements)
 - [Dataset](#Dataset)
@@ -19,18 +19,18 @@ This repository contains code for the following paper:
 
 - No. of classes (in current code): 4716
 - 2017 Version: 7.0M videos, 4716 classes, 3.4 labels/video, 3.2B audio-visual features
-- Note: This code supports all versions of dataset. In ```code_student_uniform/readers.py```, You can change ```id``` to ```video_id``` and ```num_classes``` to required.
+- Note: This code supports all versions of dataset. In ```code_student_uniform/readers.py```, You can change ```video_id``` to ```id``` and set ```num_classes``` as per the dataset version.
 
 # Code Organization
 Bash Scripts for end-to-end training:
-- `run_train.sh`: Bash script to train Teacher and Student network together, generate logs in `output_HLSTM_TeaStud_every10_after_Nepc` and model in `model_HLSTM_TeaStud_every10_train`
+- `run_train.sh`: Bash script to train Teacher and Student network Parallely, generate logs in `output_HLSTM_TeaStud_every10_after_Nepc` and model in `model_HLSTM_TeaStud_every10_train`
 - `run_validate.sh`: Bash script to evaluate only student network saved in `model_HLSTM_TeaStud_every10_train` on validation set and generate logs in `validate_HLSTM_TeaStud_every10_train_after_Nepc`
-- `run_convert_model.sh`: Bash script for converting stored Teacher-Student meta-graph and model in `model_HLSTM_TeaStud_every10_train`, to Student model in  `model_HLSTM_TeaStud_every10_finetune`
+- `run_convert_model.sh`: Bash script for converting stored Teacher-Student meta-graph in `model_HLSTM_TeaStud_every10_train`, to Student meta-graph in  `model_HLSTM_TeaStud_every10_finetune`
 - `run_finetune.sh`: Bash script for fine-tuning pre-trained Student in `model_HLSTM_TeaStud_every10_finetune` and generate logs in `output_HLSTM_TeaStud_every10_finetune_after_Nepc`
 - `run_evaluate.sh`: Bash script for evaluating fine-tuned Student and generate logs in `eval_HLSTM_TeaStud_every10_finetune_after_Nepc`
 
 Main Code Files:
-- `code_student_uniform/train.py`: Binary for training dynamic Teacher and Student Tensorflow models (Hierarchical LSTMs) on YouTube-8M dataset.
+- `code_student_uniform/train.py`: Binary for Parallel training of Teacher and Student Tensorflow models (Hierarchical LSTMs) on YouTube-8M dataset.
 - `code_student_uniform/train_convert_model.py`: Binary for converting Meta-graph from Teacher-Student to Student in the Network on YouTube-8M dataset.
 - `code_student_uniform/train_finetune.py`: Binary for training(fine-tuning) pre-trained Student Tensorflow models on YouTube-8M dataset.
 - `code_student_uniform/frame_level_models.py`: Contains a collection of Models (with Teacher and Student architectures) which operate on variable-length sequences.
@@ -41,7 +41,7 @@ Main Code Files:
 ```
 bash run_train.sh
 ```
-and here are some sample outputs on a smaller subset of training data, from my local run (macOS 10.14.6):
+and here is the sample view of outputs on a very small subset of training data (10 tf-records), from my local run (macOS 10.14.6):
 ```
 Key: video_level_classifier_model Value: MoeModel
 Key: train_dir Value: ./model_HLSTM_TeaStud_every10_train/
@@ -105,6 +105,7 @@ Trainable Parameters of Student:
 [u'model_student/RNN_L1/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel:0', u'model_student/RNN_L1/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/bias:0', u'model_student/RNN_L1/rnn/multi_rnn_cell/cell_1/basic_lstm_cell/kernel:0', u'model_student/RNN_L1/rnn/multi_rnn_cell/cell_1/basic_lstm_cell/bias:0', u'model_student/RNN_L2/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel:0', u'model_student/RNN_L2/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/bias:0', u'model_student/RNN_L2/rnn/multi_rnn_cell/cell_1/basic_lstm_cell/kernel:0', u'model_student/RNN_L2/rnn/multi_rnn_cell/cell_1/basic_lstm_cell/bias:0', u'model_student/classifier/gates/weights:0', u'model_student/classifier/experts/weights:0', u'model_student/classifier/experts/biases:0']
 INFO:tensorflow:/job:master/task:0: Built graph.
 INFO:tensorflow:/job:master/task:0: Starting managed session.
+INFO:tensorflow:Restoring parameters from ./model_HLSTM_TeaStud_every10_train/model.ckpt-0
 INFO:tensorflow:Starting standard services.
 INFO:tensorflow:Saving checkpoint to path ./model_HLSTM_TeaStud_every10_train/model.ckpt
 INFO:tensorflow:Starting queue runners.
@@ -112,25 +113,14 @@ INFO:tensorflow:/job:master/task:0: Entering training loop.
 INFO:tensorflow:global_step/sec: 0
 INFO:tensorflow:Recording summary at step 0.
 INFO:tensorflow:global_step/sec: 0.00674478
-Vars to train
-INFO:tensorflow:/job:master/task:0: training step 2| Hit@1: 0.00| PERR: 0.00| GAP: 0.00| Loss: 1914.3633| student_loss 1915.5684
-INFO:tensorflow:global_step/sec: 0.0109319
+INFO:tensorflow:/job:master/task:0: training step 2| Hit@1: 0.00| PERR: 0.00| GAP: 0.00| Teacher_Loss: 1914.09| L_REP: 1.16| L_PRED: 0.01| L_CE: 1914.1
+INFO:tensorflow:global_step/sec: 0.0104066
 INFO:tensorflow:Recording summary at step 2.
 INFO:tensorflow:Recording summary at step 3.
-Vars to train
-INFO:tensorflow:/job:master/task:0: training step 4| Hit@1: 0.07| PERR: 0.04| GAP: 0.01| Loss: 1911.4663| student_loss 1913.5865
-INFO:tensorflow:global_step/sec: 0.0144734
-INFO:tensorflow:Recording summary at step 5.
-INFO:tensorflow:global_step/sec: 0.00882497
-Vars to train
-INFO:tensorflow:/job:master/task:0: training step 6| Hit@1: 0.20| PERR: 0.16| GAP: 0.02| Loss: 590.33594| student_loss 1921.3817
-INFO:tensorflow:Recording summary at step 6.
-INFO:tensorflow:global_step/sec: 0.00921367
-INFO:tensorflow:Recording summary at step 7.
-Vars to train
-INFO:tensorflow:/job:master/task:0: training step 8| Hit@1: 0.22| PERR: 0.13| GAP: 0.03| Loss: 32.490585| student_loss 13173.261
-INFO:tensorflow:global_step/sec: 0.0164792
-INFO:tensorflow:Recording summary at step 9.
+INFO:tensorflow:global_step/sec: 0.00853665
+INFO:tensorflow:/job:master/task:0: training step 4| Hit@1: 0.08| PERR: 0.06| GAP: 0.01| Teacher_Loss: 1908.12| L_REP: 1.52| L_PRED: 0.01| L_CE: 1913.41
+INFO:tensorflow:Recording summary at step 4.
+INFO:tensorflow:global_step/sec: 0.0166816
 ```
 
 # Upcoming:
