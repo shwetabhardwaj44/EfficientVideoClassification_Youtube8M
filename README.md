@@ -105,6 +105,7 @@ Trainable Parameters of Student:
 [u'model_student/RNN_L1/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel:0', u'model_student/RNN_L1/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/bias:0', u'model_student/RNN_L1/rnn/multi_rnn_cell/cell_1/basic_lstm_cell/kernel:0', u'model_student/RNN_L1/rnn/multi_rnn_cell/cell_1/basic_lstm_cell/bias:0', u'model_student/RNN_L2/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel:0', u'model_student/RNN_L2/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/bias:0', u'model_student/RNN_L2/rnn/multi_rnn_cell/cell_1/basic_lstm_cell/kernel:0', u'model_student/RNN_L2/rnn/multi_rnn_cell/cell_1/basic_lstm_cell/bias:0', u'model_student/classifier/gates/weights:0', u'model_student/classifier/experts/weights:0', u'model_student/classifier/experts/biases:0']
 INFO:tensorflow:/job:master/task:0: Built graph.
 INFO:tensorflow:/job:master/task:0: Starting managed session.
+INFO:tensorflow:Restoring parameters from ./model_HLSTM_TeaStud_every10_train/model.ckpt-0
 INFO:tensorflow:Starting standard services.
 INFO:tensorflow:Saving checkpoint to path ./model_HLSTM_TeaStud_every10_train/model.ckpt
 INFO:tensorflow:Starting queue runners.
@@ -112,21 +113,9 @@ INFO:tensorflow:/job:master/task:0: Entering training loop.
 INFO:tensorflow:global_step/sec: 0
 INFO:tensorflow:Recording summary at step 0.
 INFO:tensorflow:global_step/sec: 0.00674478
-INFO:tensorflow:/job:master/task:0: training step 2| Hit@1: 0.00| PERR: 0.00| GAP: 0.00| Loss: 1914.3633| student_loss 1915.5684
-INFO:tensorflow:global_step/sec: 0.0109319
-INFO:tensorflow:Recording summary at step 2.
-INFO:tensorflow:Recording summary at step 3.
-INFO:tensorflow:/job:master/task:0: training step 4| Hit@1: 0.07| PERR: 0.04| GAP: 0.01| Loss: 1911.4663| student_loss 1913.5865
-INFO:tensorflow:global_step/sec: 0.0144734
-INFO:tensorflow:Recording summary at step 5.
-INFO:tensorflow:global_step/sec: 0.00882497
-INFO:tensorflow:/job:master/task:0: training step 6| Hit@1: 0.20| PERR: 0.16| GAP: 0.02| Loss: 590.33594| student_loss 1921.3817
-INFO:tensorflow:Recording summary at step 6.
-INFO:tensorflow:global_step/sec: 0.00921367
-INFO:tensorflow:Recording summary at step 7.
-INFO:tensorflow:/job:master/task:0: training step 8| Hit@1: 0.22| PERR: 0.13| GAP: 0.03| Loss: 32.490585| student_loss 13173.261
-INFO:tensorflow:global_step/sec: 0.0164792
-INFO:tensorflow:Recording summary at step 9.
+INFO:tensorflow:/job:master/task:0: training step 2| Hit@1: 0.00| PERR: 0.00| GAP: 0.00| Teacher_Loss: 1914.1583| L_REP: 1.1446424| L_PRED: 2.1074477e-05| L_CE: 1914.1437
+INFO:tensorflow:/job:master/task:0: training step 4| Hit@1: 0.09| PERR: 0.04| GAP: 0.01| Teacher_Loss: 1910.0898| L_REP: 1.4490945| L_PRED: 2.739967e-05| L_CE: 1911.522
+
 ```
 
 # Upcoming:
