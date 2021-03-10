@@ -1,3 +1,8 @@
+<<<<<<< HEAD:code_student_uniform/video_level_models.py
+=======
+
+
+>>>>>>> 97182310ba2520a567ffba05f23195a1dadb1f24:code_student_uniform/code/video_level_models.py
 """Contains model definitions."""
 import math
 
