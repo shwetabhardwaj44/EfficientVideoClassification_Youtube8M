@@ -6,7 +6,6 @@ This repository contains code for the following paper:
 - [Dataset](#Dataset)
 - [Code organization](#code-organization)
 - [Command Examples](#command-examples)
-- [Notes](#Notes)
 - [Upcoming](#Upcoming)
 
 # Requirements
