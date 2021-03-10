@@ -15,23 +15,23 @@ This repository contains code for the following paper:
 * cPickle: 1.71
 
 # Dataset
-YouTube-8M Data: http://research.google.com/youtube8m/download.html
-YouTube-8M small sample link: (https://drive.google.com/drive/folders/1XY63FfJY7k7YD3WrQ8DN7L6kTiX4BxlK?usp=sharing)
+- YouTube-8M Data: http://research.google.com/youtube8m/download.html
+- YouTube-8M small sample link: (https://drive.google.com/drive/folders/1XY63FfJY7k7YD3WrQ8DN7L6kTiX4BxlK?usp=sharing)
 
-No. of classes (in current code): 4716
-2017 Version: 7.0M videos, 4716 classes, 3.4 labels/video, 3.2B audio-visual features
-Note: This code supports all versions of dataset. 
-In ```code_student_uniform/code/readers.py```, You can change ```id``` to ```video_id``` and ```num_classes``` to required.
+- No. of classes (in current code): 4716
+- 2017 Version: 7.0M videos, 4716 classes, 3.4 labels/video, 3.2B audio-visual features
+- Note: This code supports all versions of dataset. In ```code_student_uniform/code/readers.py```, You can change ```id``` to ```video_id``` and ```num_classes``` to required.
 
 # Code Organization
+Bash Scripts for end-to-end training:
 - `run_train.sh`: Bash script to train Teacher and Student network together, generate logs in `output_HLSTM_TeaStud_every10_after_Nepc` and model in `model_HLSTM_TeaStud_every10_train`
 - `run_validate.sh`: Bash script to evaluate only student network saved in `model_HLSTM_TeaStud_every10_train` on validation set and generate logs in `validate_HLSTM_TeaStud_every10_train_after_Nepc`
-- `run_convert_model.sh`:
-- `run_finetune.sh`:
-- `run_evaluate.sh`:
+- `run_convert_model.sh`: Bash script for converting stored Teacher-Student meta-graph and model in `model_HLSTM_TeaStud_every10_train`, to Student model in  `model_HLSTM_TeaStud_every10_finetune`
+- `run_finetune.sh`: Bash script for fine-tuning pre-trained Student in `model_HLSTM_TeaStud_every10_finetune` and generate logs in `output_HLSTM_TeaStud_every10_finetune_after_Nepc`
+- `run_evaluate.sh`: Bash script for evaluating fine-tuned Student and generate logs in `eval_HLSTM_TeaStud_every10_finetune_after_Nepc`
 
 Main Code Files:
-- `code_student_uniform/code/train.py`: Binary for training dynamic Teacher and Student Tensorflow models on YouTube-8M dataset.
+- `code_student_uniform/code/train.py`: Binary for training dynamic Teacher and Student Tensorflow models (Hierarchical LSTMs) on YouTube-8M dataset.
 - `code_student_uniform/code/train_convert_model.py`: Binary for converting Meta-graph from Teacher-Student to Student in the Network on YouTube-8M dataset.
 - `code_student_uniform/code/train_finetune.py`: Binary for training(fine-tuning) pre-trained Student Tensorflow models on YouTube-8M dataset.
 - `code_student_uniform/code/frame_level_models.py`: Contains a collection of Models (with Teacher and Student architectures) which operate on variable-length sequences.
