@@ -41,7 +41,7 @@ Main Code Files:
 ```
 bash run_train.sh
 ```
-and here are some sample outputs on a smaller subset of training data, from my local run (macOS 10.14.6):
+and here is the sample view of outputs on a very small subset of training data (10 tf-records), from my local run (macOS 10.14.6):
 ```
 Key: video_level_classifier_model Value: MoeModel
 Key: train_dir Value: ./model_HLSTM_TeaStud_every10_train/
