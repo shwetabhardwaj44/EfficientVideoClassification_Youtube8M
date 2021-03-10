@@ -25,7 +25,7 @@ This repository contains code for the following paper:
 Bash Scripts for end-to-end training:
 - `run_train.sh`: Bash script to train Teacher and Student network Parallely, generate logs in `output_HLSTM_TeaStud_every10_after_Nepc` and model in `model_HLSTM_TeaStud_every10_train`
 - `run_validate.sh`: Bash script to evaluate only student network saved in `model_HLSTM_TeaStud_every10_train` on validation set and generate logs in `validate_HLSTM_TeaStud_every10_train_after_Nepc`
-- `run_convert_model.sh`: Bash script for converting stored Teacher-Student meta-graph and model in `model_HLSTM_TeaStud_every10_train`, to Student model in  `model_HLSTM_TeaStud_every10_finetune`
+- `run_convert_model.sh`: Bash script for converting stored Teacher-Student meta-graph in `model_HLSTM_TeaStud_every10_train`, to Student meta-graph in  `model_HLSTM_TeaStud_every10_finetune`
 - `run_finetune.sh`: Bash script for fine-tuning pre-trained Student in `model_HLSTM_TeaStud_every10_finetune` and generate logs in `output_HLSTM_TeaStud_every10_finetune_after_Nepc`
 - `run_evaluate.sh`: Bash script for evaluating fine-tuned Student and generate logs in `eval_HLSTM_TeaStud_every10_finetune_after_Nepc`
 
