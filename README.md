@@ -23,14 +23,14 @@ This repository contains code for the following paper:
 
 # Code Organization
 Bash Scripts for end-to-end training:
-- `run_train.sh`: Bash script to train Teacher and Student network together, generate logs in `output_HLSTM_TeaStud_every10_after_Nepc` and model in `model_HLSTM_TeaStud_every10_train`
+- `run_train.sh`: Bash script to train Teacher and Student network Parallely, generate logs in `output_HLSTM_TeaStud_every10_after_Nepc` and model in `model_HLSTM_TeaStud_every10_train`
 - `run_validate.sh`: Bash script to evaluate only student network saved in `model_HLSTM_TeaStud_every10_train` on validation set and generate logs in `validate_HLSTM_TeaStud_every10_train_after_Nepc`
 - `run_convert_model.sh`: Bash script for converting stored Teacher-Student meta-graph and model in `model_HLSTM_TeaStud_every10_train`, to Student model in  `model_HLSTM_TeaStud_every10_finetune`
 - `run_finetune.sh`: Bash script for fine-tuning pre-trained Student in `model_HLSTM_TeaStud_every10_finetune` and generate logs in `output_HLSTM_TeaStud_every10_finetune_after_Nepc`
 - `run_evaluate.sh`: Bash script for evaluating fine-tuned Student and generate logs in `eval_HLSTM_TeaStud_every10_finetune_after_Nepc`
 
 Main Code Files:
-- `code_student_uniform/train.py`: Binary for training dynamic Teacher and Student Tensorflow models (Hierarchical LSTMs) on YouTube-8M dataset.
+- `code_student_uniform/train.py`: Binary for Parallel training of Teacher and Student Tensorflow models (Hierarchical LSTMs) on YouTube-8M dataset.
 - `code_student_uniform/train_convert_model.py`: Binary for converting Meta-graph from Teacher-Student to Student in the Network on YouTube-8M dataset.
 - `code_student_uniform/train_finetune.py`: Binary for training(fine-tuning) pre-trained Student Tensorflow models on YouTube-8M dataset.
 - `code_student_uniform/frame_level_models.py`: Contains a collection of Models (with Teacher and Student architectures) which operate on variable-length sequences.
