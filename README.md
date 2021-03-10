@@ -8,7 +8,7 @@ This repository contains code for the following paper:
 - [Command Examples](#command-examples)
 - [Notes](#Notes)
 - [Upcoming](#Upcoming)
-- 
+
 # Requirements
 * Tensorflow: 1.3.0
 * Python: 2.7.18 (supports Python3 also)
